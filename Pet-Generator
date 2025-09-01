@@ -7,120 +7,126 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(to bottom, #d4f7dc, #ffffff);
+      background: linear-gradient(to bottom right, #c7f0ff, #f0fff4);
       margin: 0;
-      padding: 0;
-      text-align: center;
+      padding: 20px;
     }
-    header {
-      background: #4CAF50;
-      color: white;
-      padding: 15px;
-      font-size: 24px;
-      font-weight: bold;
+    .app {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 24px;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 20px;
     }
     button {
-      margin: 10px;
       padding: 12px 24px;
+      background: #4a90e2;
+      color: #fff;
       border: none;
       border-radius: 8px;
-      background: #4CAF50;
-      color: white;
-      font-size: 16px;
       cursor: pointer;
-      transition: 0.3s;
+      font-size: 16px;
+      transition: transform 0.2s, background 0.3s;
     }
     button:hover {
-      background: #45a049;
-    }
-    .pet-box {
-      margin: 20px auto;
-      padding: 20px;
-      width: 300px;
-      border: 2px solid #4CAF50;
-      border-radius: 12px;
-      background: #f9fff9;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .pet-box:hover {
+      background: #3578c6;
       transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
     }
-    .pet-box img {
-      width: 150px;
-      height: 150px;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap: 16px;
+    }
+    .pet {
+      background: #f9fbff;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: popIn 0.6s forwards;
+    }
+    .pet img {
+      width: 120px;
+      height: 120px;
       object-fit: contain;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+    .pet img:hover {
+      transform: scale(1.12) rotate(3deg);
     }
     .name {
       font-weight: bold;
-      margin-top: 10px;
-      font-size: 18px;
+      margin-top: 8px;
+      font-size: 16px;
+      color: #333;
     }
     .rarity {
-      font-size: 14px;
-      margin-top: 5px;
-      font-weight: bold;
-    }
-    .stats {
-      margin-top: 10px;
       font-size: 13px;
+      font-weight: bold;
+      margin: 4px 0;
     }
     .Common { color: gray; }
-    .Rare { color: blue; }
-    .Legendary { color: gold; }
+    .Devine { color: gold; }
+    .Prismatic { color: #e91e63; }
+
+    @keyframes popIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
-  <header>🌱 Grow-A-Garden Pet Generator</header>
-
-  <button onclick="generatePet()">🎲 Generate Pet</button>
-  <button onclick="generateMultiplePets()">🎯 Generate 3 Pets</button>
-
-  <div id="petResultContainer"></div>
+  <div class="app">
+    <h1>🌱 Grow-A-Garden Pet Generator</h1>
+    <div class="controls">
+      <button onclick="generatePets()">✨ Generate Pets</button>
+    </div>
+    <div class="grid" id="petGrid"></div>
+  </div>
 
   <script>
+    // Pet list
     const pets = [
-      { name: "Raccoon", rarity: "Common", img: "https://static.wikia.nocookie.net/grow-a-garden/images/4/4a/Raccoon.png", link: "https://www.roblox.com/users/4500507838/profile" },
-      { name: "Kitsune", rarity: "Legendary", img: "https://static.wikia.nocookie.net/grow-a-garden/images/3/3a/Kitsune.png", link: "https://www.roblox.com/games/126884695634066/Grow-a-Garden" },
-      { name: "Bunny", rarity: "Rare", img: "https://static.wikia.nocookie.net/grow-a-garden/images/a/a0/Bunny.png", link: "https://www.roblox.com/users/4500507838/profile" }
+      { name: "Raccoon", rarity: "Devine", img: "https://static.wikia.nocookie.net/growagarden/images/5/54/Raccon_Better_Quality.png", link: "https://www.robiox.com.am/users/4500507838/profile" },
+      { name: "Corrupted Kitsune", rarity: "Prismatic", img: "https://static.wikia.nocookie.net/growagarden/images/2/2a/CorruptedKitsune.png", link: "https://www.robiox.com.am/games/126884695634066/Grow-a-Garden" },
+      { name: "Kitsune", rarity: "Prismatic", img: "https://static.wikia.nocookie.net/growagarden/images/0/04/Kitsune.png", link: "https://www.robiox.com.am/users/4500507838/profile" }
     ];
 
-    function randomStat() {
-      return Math.floor(Math.random() * 100) + 1; // 1 to 100
+    function randInt(max) {
+      return Math.floor(Math.random() * max);
     }
 
-    function createPetBox(pet) {
-      const box = document.createElement("div");
-      box.className = "pet-box";
-      box.innerHTML = `
-        <a href="${pet.link}" target="_blank">
-          <img src="${pet.img}" alt="${pet.name}">
-        </a>
-        <div class="name">${pet.name}</div>
-        <div class="rarity ${pet.rarity}">${pet.rarity}</div>
-        <div class="stats">
-          Health: ${randomStat()}<br>
-          Happiness: ${randomStat()}<br>
-          Energy: ${randomStat()}
-        </div>
-      `;
-      return box;
-    }
-
-    function generatePet() {
-      const randomPet = pets[Math.floor(Math.random() * pets.length)];
-      const container = document.getElementById("petResultContainer");
-      container.innerHTML = "";
-      container.appendChild(createPetBox(randomPet));
-    }
-
-    function generateMultiplePets() {
-      const container = document.getElementById("petResultContainer");
-      container.innerHTML = "";
+    function generatePets() {
+      const grid = document.getElementById("petGrid");
+      grid.innerHTML = "";
       for (let i = 0; i < 3; i++) {
-        const randomPet = pets[Math.floor(Math.random() * pets.length)];
-        container.appendChild(createPetBox(randomPet));
+        const pet = pets[randInt(pets.length)];
+        const card = document.createElement("div");
+        card.className = "pet";
+        card.innerHTML = `
+          <a href="${pet.link}" target="_blank">
+            <img src="${pet.img}" alt="${pet.name}">
+          </a>
+          <div class="name">${pet.name}</div>
+          <div class="rarity ${pet.rarity}">${pet.rarity}</div>
+        `;
+        grid.appendChild(card);
       }
     }
   </script>
