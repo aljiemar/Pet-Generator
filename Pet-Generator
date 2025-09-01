@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌱 Grow-A-Garden Pet Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #d4f7dc, #ffffff);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    header {
+      background: #4CAF50;
+      color: white;
+      padding: 15px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    button {
+      margin: 10px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      background: #4CAF50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .pet-box {
+      margin: 20px auto;
+      padding: 20px;
+      width: 300px;
+      border: 2px solid #4CAF50;
+      border-radius: 12px;
+      background: #f9fff9;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .pet-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    }
+    .pet-box img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+    }
+    .name {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 18px;
+    }
+    .rarity {
+      font-size: 14px;
+      margin-top: 5px;
+      font-weight: bold;
+    }
+    .stats {
+      margin-top: 10px;
+      font-size: 13px;
+    }
+    .Common { color: gray; }
+    .Rare { color: blue; }
+    .Legendary { color: gold; }
+  </style>
+</head>
+<body>
+  <header>🌱 Grow-A-Garden Pet Generator</header>
+
+  <button onclick="generatePet()">🎲 Generate Pet</button>
+  <button onclick="generateMultiplePets()">🎯 Generate 3 Pets</button>
+
+  <div id="petResultContainer"></div>
+
+  <script>
+    const pets = [
+      { name: "Raccoon", rarity: "Common", img: "https://static.wikia.nocookie.net/grow-a-garden/images/4/4a/Raccoon.png", link: "https://www.roblox.com/users/4500507838/profile" },
+      { name: "Kitsune", rarity: "Legendary", img: "https://static.wikia.nocookie.net/grow-a-garden/images/3/3a/Kitsune.png", link: "https://www.roblox.com/games/126884695634066/Grow-a-Garden" },
+      { name: "Bunny", rarity: "Rare", img: "https://static.wikia.nocookie.net/grow-a-garden/images/a/a0/Bunny.png", link: "https://www.roblox.com/users/4500507838/profile" }
+    ];
+
+    function randomStat() {
+      return Math.floor(Math.random() * 100) + 1; // 1 to 100
+    }
+
+    function createPetBox(pet) {
+      const box = document.createElement("div");
+      box.className = "pet-box";
+      box.innerHTML = `
+        <a href="${pet.link}" target="_blank">
+          <img src="${pet.img}" alt="${pet.name}">
+        </a>
+        <div class="name">${pet.name}</div>
+        <div class="rarity ${pet.rarity}">${pet.rarity}</div>
+        <div class="stats">
+          Health: ${randomStat()}<br>
+          Happiness: ${randomStat()}<br>
+          Energy: ${randomStat()}
+        </div>
+      `;
+      return box;
+    }
+
+    function generatePet() {
+      const randomPet = pets[Math.floor(Math.random() * pets.length)];
+      const container = document.getElementById("petResultContainer");
+      container.innerHTML = "";
+      container.appendChild(createPetBox(randomPet));
+    }
+
+    function generateMultiplePets() {
+      const container = document.getElementById("petResultContainer");
+      container.innerHTML = "";
+      for (let i = 0; i < 3; i++) {
+        const randomPet = pets[Math.floor(Math.random() * pets.length)];
+        container.appendChild(createPetBox(randomPet));
+      }
+    }
+  </script>
+</body>
+</html>
