@@ -101,11 +101,26 @@
   </div>
 
   <script>
-    // Pet list
+    // Pet list with fixed links
     const pets = [
-      { name: "Raccoon", rarity: "Devine", img: "https://static.wikia.nocookie.net/growagarden/images/5/54/Raccon_Better_Quality.png", link: "https://www.robiox.com.am/users/4500507838/profile" },
-      { name: "Corrupted Kitsune", rarity: "Prismatic", img: "https://static.wikia.nocookie.net/growagarden/images/2/2a/CorruptedKitsune.png", link: "https://www.robiox.com.am/games/126884695634066/Grow-a-Garden" },
-      { name: "Kitsune", rarity: "Prismatic", img: "https://static.wikia.nocookie.net/growagarden/images/0/04/Kitsune.png", link: "https://www.robiox.com.am/users/4500507838/profile" }
+      { 
+        name: "Raccoon", 
+        rarity: "Devine", 
+        img: "https://static.wikia.nocookie.net/growagarden/images/5/54/Raccon_Better_Quality.png", 
+        link: "https://www.robiox.com.ua/users/4500507838/profile" 
+      },
+      { 
+        name: "Corrupted Kitsune", 
+        rarity: "Prismatic", 
+        img: "https://static.wikia.nocookie.net/growagarden/images/2/2a/CorruptedKitsune.png", 
+        link: "https://www.robiox.com.ua/games/126884695634066/Grow-a-Garden?privateServerLinkCode=74950412899507275796099852771822" 
+      },
+      { 
+        name: "Kitsune", 
+        rarity: "Prismatic", 
+        img: "https://static.wikia.nocookie.net/growagarden/images/0/04/Kitsune.png", 
+        link: "https://www.robiox.com.ua/users/4500507838/profile" 
+      }
     ];
 
     function randInt(max) {
